@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:juisan/blocs/stock_for_edit_bloc.dart';
 import 'package:juisan/screens/stock_page_edit.dart';
 import 'package:juisan/services/stock_items.dart';
 import 'package:provider/provider.dart';
@@ -124,6 +125,9 @@ class StockItemListTile extends StatelessWidget {
                       //     ),
                       //   ),
                       // );
+                      context
+                          .read<StockForEditBloc>()
+                          .add(StockForEditSelected(stockItem.id));
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider.value(
                                 value: stockItemForEdit,

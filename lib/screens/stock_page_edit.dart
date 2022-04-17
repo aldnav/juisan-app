@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:juisan/blocs/stock_for_edit_bloc.dart';
 import 'package:juisan/services/stock_items.dart';
 import 'package:juisan/widgets/loads/stock_item.dart';
 import 'package:provider/provider.dart';
@@ -21,12 +22,20 @@ class _EditStockPageState extends State<EditStockPage> {
         builder: (context, stockItemForEdit, child) {
       StockItem stockItem = stockItemForEdit.stockItem;
 
+      /// from bloc
+
       return Scaffold(
         appBar: AppBar(
           title: Text(appBarTitle),
         ),
         body: Center(
-          child: Text(stockItem.name + " " + stockItemForEdit.message),
+          child: Row(
+            children: [
+              Text(stockItem.name + " " + stockItemForEdit.message),
+              Text(" "),
+              Text(context.read<StockForEditBloc>().state.stockId.toString()),
+            ],
+          ),
         ),
       );
     });

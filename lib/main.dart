@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:juisan/blocs/stock_for_edit_bloc.dart';
 import 'package:juisan/screens/home_page.dart';
 import 'package:juisan/screens/loads_page.dart';
 import 'package:juisan/screens/orders_page.dart';
@@ -10,9 +12,18 @@ import 'package:juisan/widgets/loads/stock_item.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => StockItemForEdit())
-  ], child: const MyApp()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => StockItemForEdit())
+      ],
+      child: MultiBlocProvider(providers: [
+        BlocProvider<StockForEditBloc>(
+          create: (context) => StockForEditBloc(),
+        ),
+      ], child: const MyApp()),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
