@@ -8,21 +8,14 @@ import 'package:juisan/screens/profile_page.dart';
 import 'package:juisan/screens/safety_page.dart';
 import 'package:juisan/screens/stock_page_edit.dart';
 import 'package:juisan/utils.dart';
-import 'package:juisan/widgets/loads/stock_item.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => StockItemForEdit())
-      ],
-      child: MultiBlocProvider(providers: [
-        BlocProvider<StockForEditBloc>(
-          create: (context) => StockForEditBloc(),
-        ),
-      ], child: const MyApp()),
-    ),
+    MultiBlocProvider(providers: [
+      BlocProvider<StockForEditBloc>(
+        create: (context) => StockForEditBloc(),
+      ),
+    ], child: const MyApp()),
   );
 }
 
@@ -72,8 +65,8 @@ class MyApp extends StatelessWidget {
         // Handle '/loads'
         page = const LoadsPage();
       } else {
-        var uri = Uri.parse(settings.name!);
-        if (uri.pathSegments.first == 'edit') {
+        // TODO: Must consider regex path like Django's re_path
+        if (Utils.loadsEditPageRPath.hasMatch(settings.name!)) {
           // Handle '/loads/edit'
           page = const EditStockPage();
         } else {

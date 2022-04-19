@@ -30,7 +30,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  provider: ^6.0.0
   equatable: ^2.0.0
   flutter_bloc: ^8.0.0
 

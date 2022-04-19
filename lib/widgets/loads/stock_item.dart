@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:juisan/blocs/stock_for_edit_bloc.dart';
-import 'package:juisan/screens/stock_page_edit.dart';
 import 'package:juisan/services/stock_items.dart';
+import 'package:juisan/utils.dart';
 import 'package:provider/provider.dart';
 
 enum _MenuOption {
@@ -55,101 +55,93 @@ class StockItemListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<StockItemForEdit>(
-        builder: (context, stockItemForEdit, child) {
-      return Card(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-          child: Row(
-            children: [
-              Expanded(child: Text(stockItem.name)),
-              Expanded(
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
-                        children: [
-                          StockQuantityInfo(
-                              quantity: stockItem.quantityInStock ?? 0,
-                              unit: stockItem.quantityUnit != null
-                                  ? _qtyMap[stockItem.quantityUnit]
-                                  : "",
-                              description: "To deliver"),
-                          const SizedBox(width: 8),
-                          StockQuantityInfo(
-                              quantity: stockItem.quantityInStock ?? 0,
-                              unit: stockItem.quantityUnit != null
-                                  ? _qtyMap[stockItem.quantityUnit]
-                                  : "",
-                              description: "In stock"),
-                          const SizedBox(width: 8),
-                          StockQuantityInfo(
-                              quantity: stockItem.quantityInStock ?? 0,
-                              unit: stockItem.quantityUnit != null
-                                  ? _qtyMap[stockItem.quantityUnit]
-                                  : "",
-                              description: "B/O"),
-                        ],
-                      ),
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        child: Row(
+          children: [
+            Expanded(child: Text(stockItem.name)),
+            Expanded(
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      children: [
+                        StockQuantityInfo(
+                            quantity: stockItem.quantityInStock ?? 0,
+                            unit: stockItem.quantityUnit != null
+                                ? _qtyMap[stockItem.quantityUnit]
+                                : "",
+                            description: "To deliver"),
+                        const SizedBox(width: 8),
+                        StockQuantityInfo(
+                            quantity: stockItem.quantityInStock ?? 0,
+                            unit: stockItem.quantityUnit != null
+                                ? _qtyMap[stockItem.quantityUnit]
+                                : "",
+                            description: "In stock"),
+                        const SizedBox(width: 8),
+                        StockQuantityInfo(
+                            quantity: stockItem.quantityInStock ?? 0,
+                            unit: stockItem.quantityUnit != null
+                                ? _qtyMap[stockItem.quantityUnit]
+                                : "",
+                            description: "B/O"),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              PopupMenuButton<_MenuOption>(
-                itemBuilder: (BuildContext context) =>
-                    <PopupMenuEntry<_MenuOption>>[
-                  const PopupMenuItem<_MenuOption>(
-                    value: _MenuOption.edit,
-                    child: Text('Edit stock'),
-                  ),
-                  const PopupMenuItem<_MenuOption>(
-                    value: _MenuOption.release,
-                    child: Text('Release items'),
-                  ),
-                  const PopupMenuItem<_MenuOption>(
-                    value: _MenuOption.viewDelivery,
-                    child: Text('View items to deliver'),
                   ),
                 ],
-                onSelected: (option) {
-                  stockItemForEdit.setStockItem(stockItem);
-                  switch (option) {
-                    case _MenuOption.edit:
-                      // Navigator.pushNamed(context, '/edit');
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ChangeNotifierProvider(
-                      //       create: (context) => stockItemForEdit,
-                      //       builder: (context, child) => EditStockPage(),
-                      //     ),
-                      //   ),
-                      // );
-                      context
-                          .read<StockForEditBloc>()
-                          .add(StockForEditSelected(stockItem.id));
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider.value(
-                                value: stockItemForEdit,
-                                child: EditStockPage(),
-                              )));
-                      break;
-                    case _MenuOption.release:
-                      // Navigator.pushNamed(context, '/stock/release');
-                      debugPrint("Release items");
-                      break;
-                    case _MenuOption.viewDelivery:
-                      // Navigator.pushNamed(context, '/stock/delivery');
-                      debugPrint("View items to deliver");
-                      break;
-                  }
-                },
-              )
-            ],
-          ),
+              ),
+            ),
+            PopupMenuButton<_MenuOption>(
+              itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<_MenuOption>>[
+                const PopupMenuItem<_MenuOption>(
+                  value: _MenuOption.edit,
+                  child: Text('Edit stock'),
+                ),
+                const PopupMenuItem<_MenuOption>(
+                  value: _MenuOption.release,
+                  child: Text('Release items'),
+                ),
+                const PopupMenuItem<_MenuOption>(
+                  value: _MenuOption.viewDelivery,
+                  child: Text('View items to deliver'),
+                ),
+              ],
+              onSelected: (option) {
+                switch (option) {
+                  case _MenuOption.edit:
+                    // Navigator.pushNamed(context, '/edit');
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => ChangeNotifierProvider(
+                    //       create: (context) => stockItemForEdit,
+                    //       builder: (context, child) => EditStockPage(),
+                    //     ),
+                    //   ),
+                    // );
+                    context
+                        .read<StockForEditBloc>()
+                        .add(StockForEditSelected(stockItem.id));
+                    Navigator.pushNamed(context, Utils.loadsEditPage);
+                    break;
+                  case _MenuOption.release:
+                    // Navigator.pushNamed(context, '/stock/release');
+                    debugPrint("Release items");
+                    break;
+                  case _MenuOption.viewDelivery:
+                    // Navigator.pushNamed(context, '/stock/delivery');
+                    debugPrint("View items to deliver");
+                    break;
+                }
+              },
+            )
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 }
 
