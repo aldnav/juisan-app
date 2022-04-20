@@ -7,15 +7,14 @@ class SafetyPage extends StatefulWidget {
   State<SafetyPage> createState() => _SafetyPageState();
 }
 
-
 class _SafetyPageState extends State<SafetyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Safety'),
+        title: const Text('Safety'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Safety'),
       ),
     );

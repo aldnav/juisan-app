@@ -44,14 +44,10 @@ class StockQuantityInfo extends StatelessWidget {
 
 /// A widget that displays a stock item's name and quantity, among other details.
 class StockItemListTile extends StatelessWidget {
-  StockItemListTile({Key? key, required this.stockItem}) : super(key: key);
+  const StockItemListTile({Key? key, required this.stockItem})
+      : super(key: key);
 
   final StockItem stockItem;
-
-  final Map _qtyMap = {
-    StockQuantity.packs: 'packs',
-    StockQuantity.pieces: 'pieces',
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -68,25 +64,20 @@ class StockItemListTile extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Row(
                       children: [
+                        // TODO: Decide how to get "To deliver"
+                        // StockQuantityInfo(
+                        //     quantity: stockItem.quantityInStock ?? 0,
+                        //     unit: stockItem.getQuantityUnitDisplay(),
+                        //     description: "To deliver"),
+                        // const SizedBox(width: 8),
                         StockQuantityInfo(
                             quantity: stockItem.quantityInStock ?? 0,
-                            unit: stockItem.quantityUnit != null
-                                ? _qtyMap[stockItem.quantityUnit]
-                                : "",
-                            description: "To deliver"),
-                        const SizedBox(width: 8),
-                        StockQuantityInfo(
-                            quantity: stockItem.quantityInStock ?? 0,
-                            unit: stockItem.quantityUnit != null
-                                ? _qtyMap[stockItem.quantityUnit]
-                                : "",
+                            unit: stockItem.getQuantityUnitDisplay(),
                             description: "In stock"),
                         const SizedBox(width: 8),
                         StockQuantityInfo(
-                            quantity: stockItem.quantityInStock ?? 0,
-                            unit: stockItem.quantityUnit != null
-                                ? _qtyMap[stockItem.quantityUnit]
-                                : "",
+                            quantity: stockItem.quantityInBO ?? 0,
+                            unit: stockItem.getQuantityUnitDisplay(),
                             description: "B/O"),
                       ],
                     ),
@@ -142,25 +133,5 @@ class StockItemListTile extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class StockItemForEdit extends ChangeNotifier {
-  /// Internal private state of the stock item to edit
-  late StockItem _stockItem = StockItem(name: 'N/A', price: 0, id: 0);
-  String message = "";
-
-  /// Internal private state of the stock item to edit
-  StockItem get stockItem => _stockItem;
-
-  /// Internal private state of the stock item to edit
-  // set stockItem(StockItem stockItem) {
-  //   _stockItem = stockItem;
-  // }
-
-  void setStockItem(StockItem stockItem) {
-    _stockItem = stockItem;
-    message = "foo";
-    notifyListeners();
   }
 }

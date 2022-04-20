@@ -11,3 +11,8 @@ abstract class StockForEditEvent extends Equatable {
 class StockForEditSelected extends StockForEditEvent {
   const StockForEditSelected(int stockId) : super(stockId);
 }
+
+// User clicks "Save" on edit screen
+class StockForEditIsSaving extends StockForEditEvent {
+  const StockForEditIsSaving({int? stockId}) : super(-1);
+}
